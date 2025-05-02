@@ -1,4 +1,5 @@
 package core.boardSpaceTypes;
+
 import core.Player;
 
 public abstract class BoardSpace {
@@ -10,9 +11,11 @@ public abstract class BoardSpace {
         this.position = position;
     }
 
-    public abstract void landOn(Player player);
+
 
     public String getName() {
         return name;
     }
+
+
 }
