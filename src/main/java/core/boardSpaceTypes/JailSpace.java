@@ -1,5 +1,6 @@
 package core.boardSpaceTypes;
 
+import core.Board;
 import core.Player;
 
 public class JailSpace extends BoardSpace {
@@ -9,7 +10,8 @@ public class JailSpace extends BoardSpace {
         super("Jail", position);
     }
 
-    public void landOn(Player player) {
+    public static void landOn(Player player, int position) {
+      JailSpace jailSpace = (JailSpace) Board.getBoard().getSpace(position);
         if (!player.isInJail()) {
             System.out.println(player.getName() + " has passed through Jail.");
         } else {
@@ -18,7 +20,7 @@ public class JailSpace extends BoardSpace {
 
                 if (player.getMoney() >= getOutFee) {
                     System.out.println(player.getName() + " chooses to pay " + getOutFee + " to get out of Jail.");
-                    payToGetOut(player);
+                    jailSpace.payToGetOut(player);
                 } else {
                     System.out.println(player.getName() + " doesn't have enough money to pay.");
                 }
