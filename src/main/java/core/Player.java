@@ -1,7 +1,6 @@
 package core;
 
-import core.boardSpaceTypes.BoardSpace;
-import core.boardSpaceTypes.RailRoadSpace;
+import core.boardSpaceTypes.*;
 
 
 import java.util.ArrayList;
@@ -33,8 +32,44 @@ public class Player {
 
     public void move(int steps) {
         if (!inJail) {
+            if (position > 40) {
+                this.addMoney(200);
+            }
             position = (position + steps) % 40;
             System.out.println(name + " moved to position " + position);
+            if (Board.getBoard().getSpace(position) instanceof RailRoadSpace) {
+                RailRoadSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof PropertySpace) {
+                PropertySpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof ChanceSpace) {
+                ChanceSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof CommunityChestSpace) {
+                CommunityChestSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof FreeParkingSpace) {
+                FreeParkingSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof GoSpace) {
+                GoSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof GoToJailSpace) {
+                GoToJailSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof JailSpace) {
+                JailSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof TaxSpace) {
+                TaxSpace.landOn(this, position);
+
+            } else if (Board.getBoard().getSpace(position) instanceof UtilitySpace) {
+                UtilitySpace.landOn(this, position);
+
+            }
+
+
         } else {
             System.out.println(name + " is in Jail and can't move this turn.");
         }
@@ -61,7 +96,7 @@ public class Player {
         }
     }
 
-    public void rollDice(Dice dice) {
+    public int rollDice(Dice dice) {
         this.firstRoll = dice.roll();
         this.secondRoll = dice.roll();
         this.totalRoll = firstRoll + secondRoll;
@@ -71,12 +106,36 @@ public class Player {
         if (this.inJail && firstRoll == secondRoll) {
             releaseFromJail();
         }
+        return firstRoll + secondRoll;
     }
 
     public int getDiceRoll() {
         return totalRoll;
     }
 
+    public int getFirstRoll() {
+        return firstRoll;
+    }
+
+    public void setFirstRoll(int firstRoll) {
+        this.firstRoll = firstRoll;
+    }
+
+    public int getSecondRoll() {
+        return secondRoll;
+    }
+
+    public void setSecondRoll(int secondRoll) {
+        this.secondRoll = secondRoll;
+    }
+
+    public int getTotalRoll() {
+        return totalRoll;
+    }
+
+    public void setTotalRoll(int totalRoll) {
+        this.totalRoll = totalRoll;
+    }
 
     public String getName() {
         return name;
