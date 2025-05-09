@@ -15,17 +15,25 @@ public class Game {
     private int currentPlayerIndex;
     private int timesPlayed;
 
-    public Game(ArrayList<String> playerNames) {
-        if (playerNames.size() > 6) {
+    public Game(ArrayList<Player> players) {
+        if (players.size() > 6) {
             throw new IllegalArgumentException("A maximum of 6 players is allowed.");
         }
-        if (playerNames.size() < 2) {
+        if (players.size() < 2) {
             throw new IllegalArgumentException("A minimum of 2 players is required.");
         }
         this.board = Board.getBoard();
         this.dice = new Dice();
-        this.players = new ArrayList<>();
+        this.players = players;
         this.currentPlayerIndex = 0;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int index) {
+        this.currentPlayerIndex = index;
     }
 
     public void start() {
@@ -159,7 +167,11 @@ public class Game {
                 }
             }
         }
-        Game game = new Game(playerNames);
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.add(new Player(playerNames.get(i)));
+        }
+            Game game = new Game(players);
         game.start();
 
     }
