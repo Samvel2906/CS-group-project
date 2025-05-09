@@ -216,4 +216,5 @@ public class MonopolyGUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MonopolyGUI::new);
     }
+
 }
