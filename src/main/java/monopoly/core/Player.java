@@ -290,10 +290,6 @@ public class Player {
         }
     }
 
-    public void move() {
-
-    }
-
     public void setColor(Color color) {
         this.color = color;
     }
