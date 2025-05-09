@@ -1,13 +1,13 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Board;
+import monopoly.core.Board;
 import java.util.Scanner;
-import core.Player;
+import monopoly.core.Player;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
-public class UtilitySpace extends BoardSpace {
+public class UtilitySpace extends OwnableBoardSpace {
     private int baseRent;
     private int price;
-    private Player owner;
 
     public UtilitySpace(String name, int position, int price, int baseRent) {
         super(name, position);
@@ -17,7 +17,7 @@ public class UtilitySpace extends BoardSpace {
     }
 
 
-    public static void landOn(Player player, int position) {
+    public static void landOn(Player player, int position) throws NotEnoughMoneyToPayException {
         UtilitySpace utilitySpace = (UtilitySpace) Board.getBoard().getSpace(position);
         System.out.println(player.getName() + " landed on " + utilitySpace.name + " (Price: " + utilitySpace.price + "$)");
 
@@ -26,42 +26,13 @@ public class UtilitySpace extends BoardSpace {
             player.buy(utilitySpace, wantsToBuy);
         } else if (!utilitySpace.owner.equals(player)) {
             int rentToPay = utilitySpace.calculateRent(player);
-            player.deductMoney(rentToPay);
+            player.pay(rentToPay);
             utilitySpace.owner.addMoney(rentToPay);
             System.out.println(player.getName() + " paid $" + rentToPay + " rent to " + utilitySpace.owner.getName());
         } else {
             System.out.println(player.getName() + " landed on their own utility " + utilitySpace.name);
         }
     }
-//    public static void landOn(Player player, int position) {
-//        UtilitySpace utilitySpace = (UtilitySpace) Board.getBoard().getSpace(position);
-//        if (utilitySpace.getOwner() == null) {
-//            System.out.println(player.getName() + " landed on " + utilitySpace.name + " (Price: " + utilitySpace.getPrice() + "$)");
-//
-//
-//            boolean wantsToBuy = askBuyConfirmation(player, utilitySpace);
-//
-//            if (wantsToBuy) {
-//                if (player.getMoney() >= utilitySpace.getPrice()) {
-//                    player.deductMoney(utilitySpace.getPrice());
-//                    utilitySpace.setOwner(player);
-//                    System.out.println(player.getName() + " bought " + utilitySpace.name + " for " + utilitySpace.getPrice() + "$");
-//                } else {
-//                    System.out.println(player.getName() + " can't afford " + utilitySpace.name + " (" + utilitySpace.getPrice() + "$)");
-//                }
-//            } else {
-//                System.out.println(player.getName() + " decided not to buy " + utilitySpace.name);
-//            }
-//
-//        } else if (utilitySpace.getOwner() != player) {
-//            int rent = utilitySpace.calculateRent(player);
-//            player.deductMoney(rent);
-//            utilitySpace.getOwner().addMoney(rent);
-//            System.out.println(player.getName() + " paid " + rent + "$ rent to " + utilitySpace.getOwner().getName());
-//        } else {
-//            System.out.println(player.getName() + " landed on their own " + utilitySpace.name);
-//        }
-//    }
     private int calculateRent(Player player) {
         int roll = player.getDiceRoll();
         int rent = baseRent * roll;

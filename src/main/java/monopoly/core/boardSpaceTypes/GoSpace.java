@@ -1,6 +1,6 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Player;
+import monopoly.core.Player;
 
 public class GoSpace extends BoardSpace {
     private static final int GO_REWARD = 200;

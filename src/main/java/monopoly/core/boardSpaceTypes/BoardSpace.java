@@ -1,6 +1,6 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Player;
+import monopoly.core.Player;
 
 public abstract class BoardSpace {
     protected String name;
@@ -10,14 +10,9 @@ public abstract class BoardSpace {
         this.name = name;
         this.position = position;
     }
-
-
     public String getName() {
         return name;
     }
 
 
-    public String getCardDescription() {
-        return name + " (" + position + ")";
-    }
 }

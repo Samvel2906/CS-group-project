@@ -1,6 +1,7 @@
-package core;
+package monopoly.core;
 
-import core.boardSpaceTypes.*;
+import monopoly.core.boardSpaceTypes.*;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 
 import java.awt.*;
@@ -33,7 +34,7 @@ public class Player {
         this.turnsInJail = 0;
     }
 
-    public void move(int steps) {
+    public void move(int steps) throws NotEnoughMoneyToPayException {
         if (!inJail) {
             if (position > 40) {
                 this.addMoney(200);
@@ -112,28 +113,6 @@ public class Player {
         return firstRoll + secondRoll;
     }
 
-//    public void buy(BoardSpace space, boolean wantsToBuy) {
-//        if (space instanceof OwnableSpace ownable) {
-//            if (ownable.getOwner() != null) {
-//                System.out.println(ownable.getName() + " is already owned by " + ownable.getOwner().getName() + ".");
-//                return;
-//            }
-//
-//            if (wantsToBuy) {
-//                if (this.money >= ownable.getCost()) {
-//                    this.deductMoney(ownable.getCost());
-//                    ownable.setOwner(this);
-//                    System.out.println(name + " bought " + ownable.getName() + " for $" + ownable.getCost());
-//                } else {
-//                    System.out.println(name + " wanted to buy " + ownable.getName() + " but doesn't have enough money.");
-//                }
-//            } else {
-//                System.out.println(name + " chose not to buy " + ownable.getName());
-//            }
-//        } else {
-//            System.out.println("This space is not ownable.");
-//        }
-//    }
 
 
     public int getDiceRoll() {
@@ -179,6 +158,14 @@ public class Player {
     public void deductMoney(int amount) {
         this.money -= amount;
     }
+    public void pay(int amount) throws NotEnoughMoneyToPayException {
+        if (this.money >= amount) {
+            this.deductMoney(amount);
+
+        }else{
+            throw new NotEnoughMoneyToPayException();
+        }
+    }
 
     public int getMoney() {
         return money;
@@ -208,6 +195,22 @@ public class Player {
         }
 
         return count;
+    }
+    public boolean ownsAllOfColorProperties(PropertyColor propertyColor) {
+        int[] propertyPositions = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 35, 37, 39}; // Example positions
+        boolean ownsAll = true;
+
+        for (int pos : propertyPositions) {
+            BoardSpace space = Board.getBoard().getSpace(pos);
+            if (space instanceof PropertySpace property && property.getColor() == propertyColor) {
+                if (!property.getOwner().equals(this)) {
+                    ownsAll = false;
+                    break;
+                }
+            }
+        }
+
+        return ownsAll;
     }
 
     public boolean equals(Object obj) {

@@ -1,7 +1,8 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Board;
-import core.Player;
+import monopoly.core.Board;
+import monopoly.core.Player;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CommunityChestSpace extends BoardSpace {
     }
 
 
-    public static void landOn(Player player, int position) {
+    public static void landOn(Player player, int position) throws NotEnoughMoneyToPayException {
         System.out.println(player.getName() + " landed on Community Chest.");
         String card = communityChestCards[(int) (Math.random() * communityChestCards.length)];
         System.out.println("Community Chest: " + card);
@@ -30,14 +31,14 @@ public class CommunityChestSpace extends BoardSpace {
         communityChestSpace.applyCardEffect(player, card);
     }
 
-    private void applyCardEffect(Player player, String card) {
+    private void applyCardEffect(Player player, String card) throws NotEnoughMoneyToPayException {
         switch (card) {
             case "Bank error in your favor. Collect $200.":
                 player.addMoney(200);
                 System.out.println(player.getName() + " collected $200.");
                 break;
             case "Doctor's fees. Pay $50.":
-                player.deductMoney(50);
+                player.pay(50);
                 System.out.println(player.getName() + " deducts $50.");
                 break;
             case "Advance to GO (Collect $200).":
@@ -54,7 +55,7 @@ public class CommunityChestSpace extends BoardSpace {
                 System.out.println(player.getName() + " collected $10 from each player.");
                 break;
             case "Pay hospital fees of $100.":
-                player.deductMoney(100);
+                player.pay(100);
                 System.out.println(player.getName() + " deducts $100.");
                 break;
         }

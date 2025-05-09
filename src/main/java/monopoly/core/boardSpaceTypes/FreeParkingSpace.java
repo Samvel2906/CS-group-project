@@ -1,6 +1,6 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Player;
+import monopoly.core.Player;
 
 public class FreeParkingSpace extends BoardSpace {
     public FreeParkingSpace(int position) {

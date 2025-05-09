@@ -1,7 +1,8 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Board;
-import core.Player;
+import monopoly.core.Board;
+import monopoly.core.Player;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ChanceSpace extends BoardSpace {
     }
 
 
-    public static void landOn(Player player, int position) {
+    public static void landOn(Player player, int position) throws NotEnoughMoneyToPayException {
         System.out.println(player.getName() + " landed on a Chance space!");
         String card = chanceCards[(int) (Math.random() * chanceCards.length)];
         System.out.println("Chance Card: " + card);
@@ -34,7 +35,7 @@ public class ChanceSpace extends BoardSpace {
         chanceSpace.applyCardEffect(player, card);
     }
 
-    private void applyCardEffect(Player player, String card) {
+    private void applyCardEffect(Player player, String card) throws NotEnoughMoneyToPayException{
         switch (card) {
             case "Advance to GO (Collect $200)":
                 player.setPosition(0);
@@ -48,7 +49,7 @@ public class ChanceSpace extends BoardSpace {
                 break;
 
             case "Pay $50 in taxes.":
-                player.deductMoney(50);
+                player.pay(50);
                 System.out.println(player.getName() + " paid $50 in taxes.");
                 break;
 
@@ -89,12 +90,12 @@ public class ChanceSpace extends BoardSpace {
         return nearest;
     }
 
-    private static void payEachPlayer(Player playerThatPays) {
+    private static void payEachPlayer(Player playerThatPays) throws NotEnoughMoneyToPayException {
         ArrayList<Player> players = Board.getBoard().getPlayers();
         for (Player player : players) {
             if (!player.equals(playerThatPays)) {
+                playerThatPays.pay(10);
                 player.addMoney(10);
-                playerThatPays.deductMoney(10);
                 System.out.println(playerThatPays.getName() + " paid $10 to " + player.getName());
             }
         }
