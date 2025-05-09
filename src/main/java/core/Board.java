@@ -1,7 +1,5 @@
 package core;
-
 import core.boardSpaceTypes.*;
-
 import java.util.ArrayList;
 
 public class Board {
@@ -11,7 +9,7 @@ public class Board {
     private ArrayList<Player> players;
 
 
-    private Board() {
+    Board() {
         spaces = new BoardSpace[BOARD_SIZE];
         initialiseSpaces();
     }
@@ -22,12 +20,13 @@ public class Board {
         }
         return board;
     }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
     private void initialiseSpaces() {
-        spaces[0] = new GoSpace( 0);
+        spaces[0] = new GoSpace(0);
         spaces[1] = new PropertySpace("Mediterranean Avenue", 1, 60, 2);
         spaces[2] = new CommunityChestSpace("Community Chest", 2);
         spaces[3] = new PropertySpace("Baltic Avenue", 3, 60, 4);
@@ -47,7 +46,7 @@ public class Board {
         spaces[17] = new CommunityChestSpace("Community Chest", 17);
         spaces[18] = new PropertySpace("Tennessee Avenue", 18, 180, 14);
         spaces[19] = new PropertySpace("New York Avenue", 19, 200, 16);
-        spaces[20] = new FreeParkingSpace( 20);
+        spaces[20] = new FreeParkingSpace(20);
         spaces[21] = new PropertySpace("Kentucky Avenue", 21, 220, 18);
         spaces[22] = new ChanceSpace("Chance", 22);
         spaces[23] = new PropertySpace("Indiana Avenue", 23, 220, 18);
@@ -57,7 +56,7 @@ public class Board {
         spaces[27] = new PropertySpace("Ventnor Avenue", 27, 260, 22);
         spaces[28] = new UtilitySpace("Water Works", 28, 150, 10);
         spaces[29] = new PropertySpace("Marvin Gardens", 29, 280, 24);
-        spaces[30] = new GoToJailSpace( 30);
+        spaces[30] = new GoToJailSpace(30);
         spaces[31] = new PropertySpace("Pacific Avenue", 31, 300, 26);
         spaces[32] = new PropertySpace("North Carolina Avenue", 32, 300, 26);
         spaces[33] = new CommunityChestSpace("Community Chest", 33);
@@ -71,5 +70,13 @@ public class Board {
 
     public BoardSpace getSpace(int position) {
         return spaces[position];
+    }
+
+    public BoardSpace[] getSpaces() {
+        return spaces;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
     }
 }

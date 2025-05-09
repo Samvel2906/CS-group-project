@@ -3,7 +3,9 @@ package core;
 import core.boardSpaceTypes.*;
 
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Player {
     private static final ArrayList<String> allPlayersUniqueNames = new ArrayList<>();
@@ -17,6 +19,7 @@ public class Player {
     private int totalRoll;
 
     private int turnsInJail;
+    private Color color;
 
     public Player(String name) {
         if (allPlayersUniqueNames.contains(name)) {
@@ -284,4 +287,22 @@ public class Player {
         }
     }
 
+    public void move() {
+
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+
+
+
+//    public Collection<Object> getProperties() {
+//        return getProperties();
+//    }
 }

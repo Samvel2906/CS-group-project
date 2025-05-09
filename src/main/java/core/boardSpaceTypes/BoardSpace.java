@@ -12,10 +12,12 @@ public abstract class BoardSpace {
     }
 
 
-
     public String getName() {
         return name;
     }
 
 
+    public String getCardDescription() {
+        return name + " (" + position + ")";
+    }
 }

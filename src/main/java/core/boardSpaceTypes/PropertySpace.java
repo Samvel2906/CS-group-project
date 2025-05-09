@@ -31,7 +31,7 @@ public class PropertySpace extends BoardSpace {
         }
     }
 
-//public static void landOn(Player player, int position) {
+    //public static void landOn(Player player, int position) {
 //    PropertySpace propertySpace = (PropertySpace) Board.getBoard().getSpace(position);
 //    if (propertySpace.owner == null) {
 //        System.out.println(player.getName() + " landed on " + propertySpace.name + " (Price: " + propertySpace.price + "$)");
