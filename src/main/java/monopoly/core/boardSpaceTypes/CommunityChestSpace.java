@@ -62,11 +62,11 @@ public class CommunityChestSpace extends BoardSpace {
     }
 
 
-    private static void collectBirthdayMoney(Player birthdayPlayer) {
+    private static void collectBirthdayMoney(Player birthdayPlayer) throws NotEnoughMoneyToPayException {
         ArrayList<Player> players = Board.getBoard().getPlayers();
         for (Player player : players) {
             if (!player.equals(birthdayPlayer)) {
-                player.deductMoney(10);
+                player.pay(10);
                 birthdayPlayer.addMoney(10);
                 System.out.println(player.getName() + " paid $10 to " + birthdayPlayer.getName());
             }

@@ -3,7 +3,6 @@ package monopoly;
 import monopoly.core.*;
 import monopoly.core.boardSpaceTypes.BoardSpace;
 import monopoly.core.boardSpaceTypes.OwnableBoardSpace;
-import monopoly.core.boardSpaceTypes.PropertySpace;
 import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 import java.util.*;
@@ -11,21 +10,28 @@ import java.util.*;
 public class Game {
     private final Board board;
     private final Dice dice;
-    private final ArrayList<Player> players;
     private int currentPlayerIndex;
     private int timesPlayed;
 
-    public Game(ArrayList<String> playerNames) {
-        if (playerNames.size() > 6) {
+    public Game(ArrayList<Player> players) {
+        if (players.size() > 6) {
             throw new IllegalArgumentException("A maximum of 6 players is allowed.");
         }
-        if (playerNames.size() < 2) {
+        if (players.size() < 2) {
             throw new IllegalArgumentException("A minimum of 2 players is required.");
         }
         this.board = Board.getBoard();
         this.dice = new Dice();
-        this.players = new ArrayList<>();
         this.currentPlayerIndex = 0;
+        board.setPlayers(players);
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int index) {
+        this.currentPlayerIndex = index;
     }
 
     public void start() {
@@ -35,7 +41,7 @@ public class Game {
         boolean gameIsRunning = true;
         Scanner scanner = new Scanner(System.in);
         while (gameIsRunning) {
-            Player currentPlayer = players.get(currentPlayerIndex);
+            Player currentPlayer = board.getPlayers().get(currentPlayerIndex);
             if (timesPlayed == 3) {
                 currentPlayer.goToJail();
             } else {
@@ -53,16 +59,16 @@ public class Game {
                     if (currentPlayer.getFirstRoll() == currentPlayer.getSecondRoll()) {
                         timesPlayed++;
                     } else {
-                        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                        currentPlayerIndex = (currentPlayerIndex + 1) % board.getPlayers().size();
                     }
                 } catch (NotEnoughMoneyToPayException e) {
                     System.out.println("The player " + currentPlayer.getName() + " does not have enough money to pay, therefor he or she is eliminated");
                     this.eliminatePlayer(currentPlayer);
-                    if (players.size() == 1) {
+                    if (board.getPlayers().size() == 1) {
                         gameIsRunning = false;
-                        System.out.println(players.get(0).getName() + " won the game.");
+                        System.out.println(board.getPlayers().get(0).getName() + " won the game.");
                     } else {
-                        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                        currentPlayerIndex = (currentPlayerIndex + 1) % board.getPlayers().size();
                     }
                 }
             }
@@ -77,7 +83,7 @@ public class Game {
         System.out.println("Each player rolls the dice to determine who goes first:");
 
 
-        for (Player player : players) {
+        for (Player player : board.getPlayers()) {
             System.out.print(player.getName() + ", press Enter to roll.");
             scanner.nextLine();
 
@@ -87,15 +93,20 @@ public class Game {
         }
 
 
-        for (int i = 0; i < players.size(); i++) {
-            for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(i).getFirstRoll() < players.get(j).getFirstRoll()) {
-                    Player temp = players.get(i);
-                    players.set(i, players.get(j));
-                    players.set(j, temp);
+        for (int i = 0; i < board.getPlayers().size(); i++) {
+            for (int j = i + 1; j < board.getPlayers().size(); j++) {
+                if (board.getPlayers().get(i).getFirstRoll() < board.getPlayers().get(j).getFirstRoll()) {
+                    Player temp = board.getPlayers().get(i);
+                    board.getPlayers().set(i, board.getPlayers().get(j));
+                    board.getPlayers().set(j, temp);
                 }
 
             }
+        }
+        int number = 1;
+        for (Player player : board.getPlayers()) {
+            System.out.println(number + ". " + player.getName());
+            number++;
         }
     }
 
@@ -111,11 +122,11 @@ public class Game {
             }
         }
 
-        players.remove(player);
+        board.getPlayers().remove(player);
     }
 
     public ArrayList<Player> getPlayers() {
-        return players;
+        return board.getPlayers();
     }
 
     public Dice getDice() {
@@ -159,7 +170,11 @@ public class Game {
                 }
             }
         }
-        Game game = new Game(playerNames);
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.add(new Player(playerNames.get(i)));
+        }
+        Game game = new Game(players);
         game.start();
 
     }
