@@ -109,6 +109,30 @@ public class Player {
         return firstRoll + secondRoll;
     }
 
+//    public void buy(BoardSpace space, boolean wantsToBuy) {
+//        if (space instanceof OwnableSpace ownable) {
+//            if (ownable.getOwner() != null) {
+//                System.out.println(ownable.getName() + " is already owned by " + ownable.getOwner().getName() + ".");
+//                return;
+//            }
+//
+//            if (wantsToBuy) {
+//                if (this.money >= ownable.getCost()) {
+//                    this.deductMoney(ownable.getCost());
+//                    ownable.setOwner(this);
+//                    System.out.println(name + " bought " + ownable.getName() + " for $" + ownable.getCost());
+//                } else {
+//                    System.out.println(name + " wanted to buy " + ownable.getName() + " but doesn't have enough money.");
+//                }
+//            } else {
+//                System.out.println(name + " chose not to buy " + ownable.getName());
+//            }
+//        } else {
+//            System.out.println("This space is not ownable.");
+//        }
+//    }
+
+
     public int getDiceRoll() {
         return totalRoll;
     }
@@ -189,6 +213,75 @@ public class Player {
         }
         Player other = (Player) obj;
         return name.equals(other.name);
+    }
+
+    private void handlePropertyPurchase(PropertySpace property, boolean wantsToBuy) {
+        if (property.getOwner() != null) {
+            System.out.println(property.getName() + " is already owned.");
+            return;
+        }
+
+        if (wantsToBuy) {
+            if (money >= property.getPrice()) {
+                deductMoney(property.getPrice());
+                property.setOwner(this);
+                System.out.println(name + " bought " + property.getName() + " for $" + property.getPrice());
+            } else {
+                System.out.println(name + " can't afford " + property.getName());
+            }
+        } else {
+            System.out.println(name + " chose not to buy " + property.getName());
+        }
+    }
+
+    private void handleRailroadPurchase(RailRoadSpace railroad, boolean wantsToBuy) {
+        if (railroad.getOwner() != null) {
+            System.out.println(railroad.getName() + " is already owned.");
+            return;
+        }
+
+        if (wantsToBuy) {
+            if (money >= railroad.getPrice()) {
+                deductMoney(railroad.getPrice());
+                railroad.setOwner(this);
+                System.out.println(name + " bought " + railroad.getName() + " for $" + railroad.getPrice());
+            } else {
+                System.out.println(name + " can't afford " + railroad.getName());
+            }
+        } else {
+            System.out.println(name + " chose not to buy " + railroad.getName());
+        }
+    }
+
+    private void handleUtilityPurchase(UtilitySpace utility, boolean wantsToBuy) {
+        if (utility.getOwner() != null) {
+            System.out.println(utility.getName() + " is already owned.");
+            return;
+        }
+
+        if (wantsToBuy) {
+            if (money >= utility.getPrice()) {
+                deductMoney(utility.getPrice());
+                utility.setOwner(this);
+                System.out.println(name + " bought " + utility.getName() + " for $" + utility.getPrice());
+            } else {
+                System.out.println(name + " can't afford " + utility.getName());
+            }
+        } else {
+            System.out.println(name + " chose not to buy " + utility.getName());
+        }
+    }
+
+    public void buy(BoardSpace space, boolean wantsToBuy) {
+        if (space instanceof PropertySpace property) {
+            handlePropertyPurchase(property, wantsToBuy);
+        } else if (space instanceof RailRoadSpace railroad) {
+            handleRailroadPurchase(railroad, wantsToBuy);
+        } else if (space instanceof UtilitySpace utility) {
+            handleUtilityPurchase(utility, wantsToBuy);
+        } else {
+            System.out.println("This space is not ownable.");
+        }
     }
 
 }
