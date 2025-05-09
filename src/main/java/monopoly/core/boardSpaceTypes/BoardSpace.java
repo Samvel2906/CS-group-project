@@ -1,6 +1,5 @@
 package monopoly.core.boardSpaceTypes;
 
-import monopoly.core.Player;
 
 public abstract class BoardSpace {
     protected String name;

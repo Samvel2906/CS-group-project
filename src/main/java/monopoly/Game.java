@@ -10,7 +10,6 @@ import java.util.*;
 public class Game {
     private final Board board;
     private final Dice dice;
-//    private final ArrayList<Player> players;
     private int currentPlayerIndex;
     private int timesPlayed;
 
