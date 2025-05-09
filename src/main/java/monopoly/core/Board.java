@@ -36,6 +36,9 @@ public class Board {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
 
     private void initialiseSpaces() {
         spaces[0] = new GoSpace( 0);
