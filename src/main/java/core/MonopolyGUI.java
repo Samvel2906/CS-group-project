@@ -18,9 +18,9 @@ public class MonopolyGUI {
     private JButton rollDiceButton;
     private JLabel statusLabel;
 
-    public MonopolyGUI() {
+    public MonopolyGUI () {
         String input = JOptionPane.showInputDialog(null, "Enter the number of players (2-6):");
-        int numPlayers = 5;
+        int numPlayers;
         try {
             numPlayers = Integer.parseInt(input);
             if (numPlayers < 2 || numPlayers > 6) numPlayers = 5;
@@ -153,10 +153,10 @@ public class MonopolyGUI {
             JOptionPane.showMessageDialog(frame, player.getName() + " was sent to jail.");
         }
 
-
+        // Update player position in the GUI
         updatePlayerPosition(currentPlayerIndex, oldPos, newPos);
 
-
+        // Show remaining balance
         JOptionPane.showMessageDialog(frame, player.getName() + "'s remaining balance: $" + player.getMoney());
 
         // Move to next player
@@ -190,31 +190,19 @@ public class MonopolyGUI {
         }
     }
 
-
     private void handleProperty(PropertySpace property) {
-        if (property == null) return;
-
         if (property.getOwner() == null) {
             int result = JOptionPane.showConfirmDialog(
                     frame,
-                    currentPlayer.getName() + ", do you want to buy " + property.getName() +
-                            " for $" + property.getPrice() + "?",
+                    currentPlayer.getName() + ", do you want to buy " + property.getName() + " for $" + property.getPrice() + "?",
                     "Buy Property",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE
             );
 
             if (result == JOptionPane.YES_OPTION) {
-                if (currentPlayer.getMoney() >= property.getPrice()) {
-                    currentPlayer.buy(property, true);
-                    JOptionPane.showMessageDialog(
-                            frame,
-                            currentPlayer.getName() + " bought " + property.getName() +
-                                    "!\nRemaining Balance: $" + currentPlayer.getMoney()
-                    );
-                } else {
-                    JOptionPane.showMessageDialog(frame, "You don't have enough money to buy this property.");
-                }
+                currentPlayer.buy(property, true);
+                JOptionPane.showMessageDialog(frame, currentPlayer.getName() + " bought " + property.getName() + "!");
             } else {
                 JOptionPane.showMessageDialog(frame, currentPlayer.getName() + " chose not to buy " + property.getName() + ".");
             }
