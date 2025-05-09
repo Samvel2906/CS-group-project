@@ -78,7 +78,7 @@ import java.util.Random;
                     boolean isRight = col == 10 && row < 10;
                     boolean isBottom = row == 10 && col > 0;
                     boolean isLeft = col == 0 && row > 0;
-                    boolean isCenter = row == 5 && col == 5; // Center of the board (Free Parking/Jail)
+                    boolean isCenter = row == 5 && col == 5;
 
                     if (isTop || isRight || isBottom || isLeft) {
                         JButton tile = new JButton();
@@ -102,7 +102,7 @@ import java.util.Random;
                                     ? ("Price: $" + tilePrices[finalIndex])
                                     : "Not for sale";
 
-                            // Show street info with an image
+
                             String imagePath = "images/" + name.toLowerCase().replaceAll("[ /]", "_") + ".png";
                             ImageIcon icon = new ImageIcon(imagePath);
                             JLabel label = new JLabel("<html>" + name + "<br>Type: " + type + "<br>" + priceInfo + "</html>");
@@ -124,7 +124,6 @@ import java.util.Random;
                         boardPanel.add(centerLabel);
                     }
                     else if ((row == 5 && col == 4) || (row == 5 && col == 6)) {
-                        // Add tiles on both sides of the "Free Parking" tile
                         JButton tile = new JButton(getRandomJailCard());
                         tile.setFont(new Font("Arial", Font.PLAIN, 9));
                         tile.setMargin(new Insets(2, 2, 2, 2));

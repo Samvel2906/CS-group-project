@@ -33,35 +33,6 @@ public class UtilitySpace extends BoardSpace {
             System.out.println(player.getName() + " landed on their own utility " + utilitySpace.name);
         }
     }
-//    public static void landOn(Player player, int position) {
-//        UtilitySpace utilitySpace = (UtilitySpace) Board.getBoard().getSpace(position);
-//        if (utilitySpace.getOwner() == null) {
-//            System.out.println(player.getName() + " landed on " + utilitySpace.name + " (Price: " + utilitySpace.getPrice() + "$)");
-//
-//
-//            boolean wantsToBuy = askBuyConfirmation(player, utilitySpace);
-//
-//            if (wantsToBuy) {
-//                if (player.getMoney() >= utilitySpace.getPrice()) {
-//                    player.deductMoney(utilitySpace.getPrice());
-//                    utilitySpace.setOwner(player);
-//                    System.out.println(player.getName() + " bought " + utilitySpace.name + " for " + utilitySpace.getPrice() + "$");
-//                } else {
-//                    System.out.println(player.getName() + " can't afford " + utilitySpace.name + " (" + utilitySpace.getPrice() + "$)");
-//                }
-//            } else {
-//                System.out.println(player.getName() + " decided not to buy " + utilitySpace.name);
-//            }
-//
-//        } else if (utilitySpace.getOwner() != player) {
-//            int rent = utilitySpace.calculateRent(player);
-//            player.deductMoney(rent);
-//            utilitySpace.getOwner().addMoney(rent);
-//            System.out.println(player.getName() + " paid " + rent + "$ rent to " + utilitySpace.getOwner().getName());
-//        } else {
-//            System.out.println(player.getName() + " landed on their own " + utilitySpace.name);
-//        }
-//    }
     private int calculateRent(Player player) {
         int roll = player.getDiceRoll();
         int rent = baseRent * roll;

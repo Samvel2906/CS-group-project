@@ -206,6 +206,22 @@ public class Player {
 
         return count;
     }
+    public boolean ownsAllOfColorProperties(PropertyColor propertyColor) {
+        int[] propertyPositions = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 35, 37, 39}; // Example positions
+        boolean ownsAll = true;
+
+        for (int pos : propertyPositions) {
+            BoardSpace space = Board.getBoard().getSpace(pos);
+            if (space instanceof PropertySpace property && property.getColor() == propertyColor) {
+                if (!property.getOwner().equals(this)) {
+                    ownsAll = false;
+                    break;
+                }
+            }
+        }
+
+        return ownsAll;
+    }
 
     public boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass()) {
