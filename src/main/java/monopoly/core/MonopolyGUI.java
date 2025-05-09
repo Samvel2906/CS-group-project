@@ -20,7 +20,7 @@ public class MonopolyGUI {
     private JLabel statusLabel;
 
     public MonopolyGUI() {
-        String input = JOptionPane.showInputDialog(null, "Enter the number of players (2-6):");
+        String input = JOptionPane.showInputDialog(null, "Enter the number of players (2–6):");
         int numPlayers = 5;
         try {
             numPlayers = Integer.parseInt(input);
@@ -34,9 +34,8 @@ public class MonopolyGUI {
         for (int i = 0; i < numPlayers; i++) {
             players.add(new Player("Player " + (i + 1)));
         }
-//        board.setPlayers(players);
-
         currentPlayer = players.get(0);
+
         playerLabels = new ArrayList<>();
         spacePanels = new ArrayList<>(40);
         for (int i = 0; i < 40; i++) spacePanels.add(null);
@@ -101,7 +100,7 @@ public class MonopolyGUI {
             try {
                 handleRollDice(e);
             } catch (NotEnoughMoneyToPayException ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
         });
         bottomPanel.add(rollDiceButton, BorderLayout.EAST);
@@ -160,13 +159,10 @@ public class MonopolyGUI {
             JOptionPane.showMessageDialog(frame, player.getName() + " was sent to jail.");
         }
 
-        // Update player position in the GUI
         updatePlayerPosition(currentPlayerIndex, oldPos, newPos);
 
-        // Show remaining balance
         JOptionPane.showMessageDialog(frame, player.getName() + "'s remaining balance: $" + player.getMoney());
 
-        // Move to next player
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         currentPlayer = players.get(currentPlayerIndex);
         statusLabel.setText("Turn: " + currentPlayer.getName());
@@ -177,7 +173,6 @@ public class MonopolyGUI {
         JPanel oldPanel = spacePanels.get(oldPos);
         JPanel newPanel = spacePanels.get(newPos);
 
-        // Move the player label from the old panel to the new one
         oldPanel.remove(label);
         newPanel.add(label);
 
@@ -199,15 +194,15 @@ public class MonopolyGUI {
 
     private void handleProperty(PropertySpace property) {
         if (property.getOwner() == null) {
-            int result = JOptionPane.showConfirmDialog(
+            int choice = JOptionPane.showConfirmDialog(
                     frame,
-                    currentPlayer.getName() + ", do you want to buy " + property.getName() + " for $" + property.getPrice() + "?",
-                    "Buy Property",
-                    JOptionPane.YES_NO_OPTION,
+                    "Do you want to buy " + property.getName() + " for $" + property.getPrice() + "?",
+                    "Property Purchase",
+                    JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE
             );
 
-            if (result == JOptionPane.YES_OPTION) {
+            if (choice == JOptionPane.OK_OPTION) {
                 currentPlayer.buy(property, true);
                 JOptionPane.showMessageDialog(frame, currentPlayer.getName() + " bought " + property.getName() + "!");
             } else {
