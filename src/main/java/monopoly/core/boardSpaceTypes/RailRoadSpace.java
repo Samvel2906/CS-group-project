@@ -1,22 +1,21 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Board;
-import core.Player;
+import monopoly.core.Board;
+import monopoly.core.Player;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 import java.util.Scanner;
 
-public class RailRoadSpace extends BoardSpace {
+public class RailRoadSpace extends OwnableBoardSpace {
     private static final int BASE_RENT = 25;
     private int price;
-    private Player owner;
-
     public RailRoadSpace(String name, int position, int price, int rentIgnored) {
         super(name, position);
         this.price = price;
         this.owner = null;
     }
 
-    public static void landOn(Player player, int position) {
+    public static void landOn(Player player, int position) throws NotEnoughMoneyToPayException {
         RailRoadSpace railroad = (RailRoadSpace) Board.getBoard().getSpace(position);
         System.out.println(player.getName() + " landed on " + railroad.name + " (Price: " + railroad.price + "$)");
 
@@ -26,7 +25,7 @@ public class RailRoadSpace extends BoardSpace {
         } else if (!railroad.owner.equals(player)) {
             int railroadsOwned = railroad.owner.getNumberOfRailroadsOwned();
             int rent = BASE_RENT * (int) Math.pow(2, railroadsOwned - 1);
-            player.deductMoney(rent);
+            player.pay(rent);
             railroad.owner.addMoney(rent);
             System.out.println(player.getName() + " paid $" + rent + " rent to " + railroad.owner.getName());
         } else {

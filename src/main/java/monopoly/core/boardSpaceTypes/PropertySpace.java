@@ -1,14 +1,14 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
 import java.util.Scanner;
 
-import core.Board;
-import core.Player;
+import monopoly.core.Board;
+import monopoly.core.Player;
+import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
-public class PropertySpace extends BoardSpace {
+public class PropertySpace extends OwnableBoardSpace {
     private int price;
     private int rent;
-    private Player owner;
     private PropertyColor color;
 
 
@@ -20,7 +20,7 @@ public class PropertySpace extends BoardSpace {
         this.owner = null;
     }
 
-    public static void landOn(Player player, int position) {
+    public static void landOn(Player player, int position) throws NotEnoughMoneyToPayException {
         PropertySpace propertySpace = (PropertySpace) Board.getBoard().getSpace(position);
         System.out.println(player.getName() + " landed on " + propertySpace.name + " (Price: " + propertySpace.price + "$)");
 
@@ -30,11 +30,11 @@ public class PropertySpace extends BoardSpace {
         } else if (!propertySpace.owner.equals(player)) {
             if (propertySpace.owner.ownsAllOfColorProperties(propertySpace.color)) {
                 int doubledRent = propertySpace.rent * 2;
-                player.deductMoney(doubledRent);
+                player.pay(doubledRent);
                 propertySpace.owner.addMoney(doubledRent);
                 System.out.println(player.getName() + " paid double rent of " + doubledRent + "$ to " + propertySpace.owner.getName());
             } else {
-                player.deductMoney(propertySpace.rent);
+                player.pay(propertySpace.rent);
                 propertySpace.owner.addMoney(propertySpace.rent);
                 System.out.println(player.getName() + " paid " + propertySpace.rent + "$ rent to " + propertySpace.owner.getName());
             }

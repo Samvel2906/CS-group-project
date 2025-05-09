@@ -1,6 +1,6 @@
-package core;
+package monopoly.core;
 
-import core.boardSpaceTypes.*;
+import monopoly.core.boardSpaceTypes.*;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class Board {
     private static final int BOARD_SIZE = 40;
     private static Board board;
+
+
     private final BoardSpace[] spaces;
     private ArrayList<Player> players;
 
@@ -127,5 +129,8 @@ public class Board {
 
     public BoardSpace getSpace(int position) {
         return spaces[position];
+    }
+    public BoardSpace[] getSpaces() {
+        return spaces;
     }
 }

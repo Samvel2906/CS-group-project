@@ -1,4 +1,4 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
 public enum PropertyColor {
     BROWN,

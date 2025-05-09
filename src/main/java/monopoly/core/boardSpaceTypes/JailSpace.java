@@ -1,7 +1,7 @@
-package core.boardSpaceTypes;
+package monopoly.core.boardSpaceTypes;
 
-import core.Board;
-import core.Player;
+import monopoly.core.Board;
+import monopoly.core.Player;
 
 public class JailSpace extends BoardSpace {
     private static final int maximumTurns = 3;
