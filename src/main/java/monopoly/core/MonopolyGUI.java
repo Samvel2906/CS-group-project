@@ -111,7 +111,7 @@ public class MonopolyGUI {
             JLabel label = new JLabel(player.getName());
             label.setFont(new Font("Arial", Font.PLAIN, 10));
             playerLabels.add(label);
-            spacePanels.get(0).add(label); // all players start at position 0
+            spacePanels.get(0).add(label);
         }
 
         frame.revalidate();
