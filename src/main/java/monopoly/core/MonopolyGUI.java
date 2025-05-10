@@ -51,6 +51,7 @@ public class MonopolyGUI {
 
     private void setupBoard() {
         boardPanel = new JPanel(new BorderLayout());
+        boardPanel.setBackground(new Color(220, 220, 220));
 
         JPanel northPanel = new JPanel(new GridLayout(1, 10));
         JPanel southPanel = new JPanel(new GridLayout(1, 10));
@@ -119,18 +120,59 @@ public class MonopolyGUI {
     }
 
     private JPanel createBoardBlock(BoardSpace space, String defaultName) {
-        JPanel panel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         panel.setPreferredSize(new Dimension(80, 80));
-        panel.setBackground(Color.WHITE);
 
         String name = (space != null) ? space.getName() : defaultName;
         JLabel nameLabel = new JLabel("<html><center>" + name + "</center></html>", SwingConstants.CENTER);
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 10));
-        nameLabel.setForeground(Color.BLACK);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 10));
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        panel.add(nameLabel);
+        panel.add(nameLabel, BorderLayout.CENTER);
+
+        applySpaceStyle(panel, space);
+
         return panel;
+    }
+
+    private void applySpaceStyle(JPanel panel, BoardSpace space) {
+        if (space instanceof PropertySpace property) {
+            String name = property.getName();
+            Color color = switch (name) {
+                case "Mediterranean Avenue", "Baltic Avenue" -> new Color(75, 0, 130);       // Dark Purple
+                case "Oriental Avenue", "Vermont Avenue", "Connecticut Avenue" -> Color.CYAN;
+                case "St. Charles Place", "States Avenue", "Virginia Avenue" -> Color.PINK;
+                case "St. James Place", "Tennessee Avenue", "New York Avenue" -> Color.ORANGE;
+                case "Kentucky Avenue", "Indiana Avenue", "Illinois Avenue" -> Color.RED;
+                case "Atlantic Avenue", "Ventnor Avenue", "Marvin Gardens" -> Color.YELLOW;
+                case "Pacific Avenue", "North Carolina Avenue", "Pennsylvania Avenue" -> Color.GREEN;
+                case "Park Place", "Boardwalk" -> Color.BLUE;
+                default -> Color.LIGHT_GRAY;
+            };
+
+            JPanel colorBar = new JPanel();
+            colorBar.setBackground(color);
+            colorBar.setPreferredSize(new Dimension(80, 10));
+            panel.add(colorBar, BorderLayout.NORTH);
+            panel.setBackground(new Color(245, 245, 245));
+        } else if (space instanceof RailRoadSpace) {
+            panel.setBackground(new Color(200, 200, 200));
+        } else if (space instanceof TaxSpace) {
+            panel.setBackground(new Color(255, 230, 230));
+        } else if (space instanceof ChanceSpace) {
+            panel.setBackground(new Color(255, 255, 204));
+        } else if (space instanceof UtilitySpace) {
+            panel.setBackground(new Color(204, 255, 255));
+        } else if (space instanceof JailSpace || space instanceof GoToJailSpace) {
+            panel.setBackground(new Color(255, 180, 180));
+        } else if (space != null && space.getName().equalsIgnoreCase("Go")) {
+            panel.setBackground(new Color(200, 255, 200));
+        } else if (space != null && space.getName().equalsIgnoreCase("Free Parking")) {
+            panel.setBackground(new Color(230, 255, 230));
+        } else {
+            panel.setBackground(new Color(240, 240, 240));
+        }
     }
 
     private void handleRollDice(ActionEvent e) throws NotEnoughMoneyToPayException {

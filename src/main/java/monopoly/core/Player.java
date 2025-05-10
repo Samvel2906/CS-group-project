@@ -6,7 +6,6 @@ import monopoly.core.exceptions.NotEnoughMoneyToPayException;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Player {
     private static final ArrayList<String> allPlayersUniqueNames = new ArrayList<>();
@@ -297,8 +296,4 @@ public class Player {
     public Color getColor() {
         return color;
     }
-
-
-
-
 }
